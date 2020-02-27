@@ -60,7 +60,7 @@ public class HttpClient {
         InputStream errorStream = httpConnection.getErrorStream();
         if(errorStream != null) {
           JsonNode errorJson = new ObjectMapper().readTree(errorStream);
-          if (errorJson != null) {
+          if (errorJson != null && errorJson.get("error") != null) {
             errorText = errorJson.get("error").asText();
           }
         }
