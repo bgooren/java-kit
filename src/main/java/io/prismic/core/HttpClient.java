@@ -59,6 +59,7 @@ public class HttpClient {
         String errorText = "Unknown error";
         InputStream errorStream = httpConnection.getErrorStream();
         if(errorStream != null) {
+          response = errorStream;
           JsonNode errorJson = new ObjectMapper().readTree(errorStream);
           if (errorJson != null && errorJson.get("error") != null) {
             errorText = errorJson.get("error").asText();
