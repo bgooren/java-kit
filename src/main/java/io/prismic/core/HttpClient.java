@@ -57,9 +57,12 @@ public class HttpClient {
       } catch (IOException e) {
         String body;
         String errorText = "Unknown error";
-        JsonNode errorJson = new ObjectMapper().readTree(httpConnection.getErrorStream());
-        if (errorJson != null) {
-          errorText = errorJson.get("error").asText();
+        InputStream errorStream = httpConnection.getErrorStream();
+        if(errorStream != null) {
+          JsonNode errorJson = new ObjectMapper().readTree(errorStream);
+          if (errorJson != null) {
+            errorText = errorJson.get("error").asText();
+          }
         }
         switch (httpConnection.getResponseCode()) {
           case 401:
